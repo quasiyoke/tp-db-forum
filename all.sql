@@ -14,10 +14,10 @@ DROP TABLE IF EXISTS `tp-db-forum`.`user` ;
 CREATE TABLE IF NOT EXISTS `tp-db-forum`.`user` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `email` VARCHAR(255) NOT NULL,
-  `username` VARCHAR(64) NOT NULL,
-  `about` VARCHAR(255) NOT NULL,
+  `username` VARCHAR(64) NULL,
+  `about` TEXT NULL,
   `isAnonymous` TINYINT(1) NOT NULL,
-  `name` VARCHAR(64) NOT NULL,
+  `name` VARCHAR(64) NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC));
 

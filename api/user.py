@@ -8,6 +8,11 @@ from flask import request
 @app.route('/db/api/user/create/', methods=['POST', ])
 def create():
     req = request.get_json()
+    if req is None:
+        return json.dumps({
+            'code': 2,
+            'response': 'Invalid JSON.',
+            })
     d = db.get_db()
     cursor = d.cursor()
     try:
@@ -51,6 +56,7 @@ def create():
 
 
 def get_details(email):
+    print email
     d = db.get_db()
     cursor = d.cursor()
     cursor.execute('SELECT `id`, `username`, `about`, `isAnonymous`, `name` FROM `user` ' +
@@ -75,7 +81,7 @@ def get_details(email):
             'name': user[4],
             'followers': get_user_followers(user_id, d),
             'following': get_user_following(user_id, d),
-            'subscriptions': 0,
+            'subscriptions': [],
         }
     })
 
@@ -106,9 +112,8 @@ def get_user_following(user_id, d=None):
 
 @app.route('/db/api/user/details/', methods=['GET', ])
 def details():
-    req = request.get_json()
     try:
-        return get_details(request.args['email'])
+        return get_details(request.args['user'])
     except KeyError:
         return json.dumps({
             'code': 3,
